@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Happy Birthday Nanaluuuuu ❤️</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Arial', sans-serif;
+      overflow: hidden;
+      background: radial-gradient(#000020, #000);
+      color: white;
+    }
+    .screen {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      padding: 20px;
+      text-align: center;
+      transition: opacity 0.6s ease-in-out;
+    }
+    .screen.active {
+      display: flex;
+      animation: fadeIn 1s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; } to { opacity: 1; }
+    }
+    .nav-btns {
+      margin-top: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    button {
+      padding: 12px 24px;
+      margin: 10px;
+      border: none;
+      border-radius: 30px;
+      background: linear-gradient(45deg, #ff5e99, #ff9966);
+      color: white;
+      font-size: 18px;
+      cursor: pointer;
+      box-shadow: 0 0 15px rgba(255, 94, 153, 0.7);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    button:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 25px rgba(255, 94, 153, 0.9);
+    }
+    button:after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 5px;
+      height: 5px;
+      background: rgba(255, 255, 255, 0.5);
+      opacity: 0;
+      border-radius: 100%;
+      transform: scale(1, 1) translate(-50%);
+      transform-origin: 50% 50%;
+    }
+    button:focus:not(:active)::after {
+      animation: ripple 1s ease-out;
+    }
+    @keyframes ripple {
+      0% {
+        transform: scale(0, 0);
+        opacity: 0.5;
+      }
+      100% {
+        transform: scale(20, 20);
+        opacity: 0;
+      }
+    }
+    #stars {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      background: transparent url('https://cdn.jsdelivr.net/gh/JulianLaval/canvas-particle-network/starfield.png') repeat;
+      z-index: -2;
+      animation: moveStars 50s linear infinite;
+    }
+    @keyframes moveStars {
+      0% { background-position: 0 0; }
+      100% { background-position: 10000px 5000px; }
+    }
+    #heart-trail {
+      position: absolute;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      z-index: 1000;
+    }
+    .typewriter {
+      overflow: hidden;
+      white-space: nowrap;
+      border-right: .15em solid #ff5e99;
+      animation: typing 3s steps(40, end), blink-caret .75s step-end infinite;
+      font-size: 2rem;
+      margin-bottom: 20px;
+    }
+    @keyframes typing {
+      from { width: 0 }
+      to { width: 100% }
+    }
+    @keyframes blink-caret {
+      from, to { border-color: transparent }
+      50% { border-color: #ff5e99; }
+    }
+    .flipbook {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding: 30px 0;
+    gap: 20px;
+    justify-content: flex-start;
+    align-items: center;
+    height: 400px;
+    scroll-behavior: smooth;
+   }
+    .flipbook img {
+    flex: 0 0 auto;
+    width: 200px;
+    height: 300px;
+    border-radius: 12px;
+    object-fit: cover;
+    scroll-snap-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 5px 15px rgba(255, 0, 140, 0.4);
+    }
+    .flipbook img:hover {
+    transform: scale(1.1);
+    box-shadow: 0 10px 20px rgba(255, 0, 140, 0.6);
+     }
+
+    .slideshow-container {
+      position: relative;
+      width: 80vw;
+      max-width: 800px;
+      height: 60vh;
+      overflow: hidden;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+    .slide {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+    }
+    .slide.active {
+      opacity: 1;
+    }
+    .slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .caption {
+      margin-top: 15px;
+      font-size: 1.2rem;
+      font-style: italic;
+      color: #ffccdd;
+      height: 30px;
+    }
+    #memory-map {
+      width: 90%;
+      max-width: 600px;
+      height: 400px;
+      background-color: #111133;
+      border-radius: 15px;
+      position: relative;
+      overflow: hidden;
+    }
+    .memory-point {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background-color: #ff5e99;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 10px #ff5e99;
+    }
+    .memory-point:hover {
+      transform: translate(-50%, -50%) scale(1.5);
+    }
+    .memory-tooltip {
+      position: absolute;
+      background-color: rgba(0, 0, 0, 0.8);
+      color: white;
+      padding: 10px;
+      border-radius: 5px;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: 100;
+      min-width: 200px;
+      text-align: center;
+    }
+    #love-meter {
+      width: 80%;
+      max-width: 500px;
+      height: 30px;
+      background-color: #333;
+      border-radius: 15px;
+      margin: 20px 0;
+      overflow: hidden;
+    }
+    #love-progress {
+      height: 100%;
+      width: 0;
+      background: linear-gradient(90deg, #ff5e99, #ff9966);
+      border-radius: 15px;
+      transition: width 1s ease;
+    }
+    #countdown {
+      font-size: 2rem;
+      margin: 20px 0;
+      font-family: 'Courier New', monospace;
+    }
+    #confetti-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1001;
+    }
+    #music-toggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: rgba(255, 94, 153, 0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 1002;
+      box-shadow: 0 0 15px rgba(255, 94, 153, 0.5);
+      transition: all 0.3s ease;
+    }
+    #music-toggle:hover {
+      transform: scale(1.1);
+      background: rgba(255, 94, 153, 0.9);
+    }
+    #secret-gift {
+      display: none;
+      margin-top: 20px;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+    #digital-rose {
+      font-size: 5rem;
+      animation: float 3s ease-in-out infinite;
+      cursor: pointer;
+    }
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-20px); }
+      100% { transform: translateY(0px); }
+    }
+    #chat-container {
+      width: 90%;
+      max-width: 500px;
+      height: 300px;
+      border: 1px solid #ff5e99;
+      border-radius: 15px;
+      padding: 15px;
+      overflow-y: auto;
+      margin-bottom: 20px;
+      background-color: rgba(0, 0, 0, 0.3);
+    }
+    .chat-message {
+      margin: 10px 0;
+      padding: 10px 15px;
+      border-radius: 18px;
+      max-width: 80%;
+      animation: fadeIn 0.5s ease;
+    }
+    .bot-message {
+      background-color: rgba(255, 94, 153, 0.2);
+      align-self: flex-start;
+      border-bottom-left-radius: 5px;
+    }
+    .user-message {
+      background-color: rgba(255, 255, 255, 0.1);
+      align-self: flex-end;
+      margin-left: auto;
+      border-bottom-right-radius: 5px;
+    }
+    #chat-input {
+      width: 70%;
+      padding: 10px;
+      border-radius: 20px;
+      border: none;
+      background-color: rgba(255, 255, 255, 0.1);
+      color: white;
+      margin-right: 10px;
+    }
+    #send-btn {
+      padding: 10px 20px;
+    }
+    .polaroid {
+      background: white;
+      padding: 15px 15px 40px 15px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      transform: rotate(-5deg);
+      transition: all 0.3s ease;
+      color: black;
+      margin: 20px;
+    }
+    .polaroid:hover {
+      transform: rotate(0deg) scale(1.05);
+    }
+    .polaroid img {
+      width: 200px;
+      height: 200px;
+      object-fit: cover;
+    }
+    .polaroid p {
+      text-align: center;
+      font-family: 'Comic Sans MS', cursive;
+      margin-top: 10px;
+    }
+    @media (max-width: 768px) {
+      .typewriter { font-size: 1.5rem; }
+      button { font-size: 16px; padding: 10px 15px; }
+      .flipbook img { width: 120px; height: 120px; }
+      .polaroid img { width: 150px; height: 150px; }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="heart-trail"></canvas>
+  <canvas id="confetti-canvas"></canvas>
+  <div id="stars"></div>
+  <audio id="bg-music" loop>
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+  </audio>
+  <div id="music-toggle">🎵</div>
+
+  <div id="app">
+    <!-- Screen 0: Intro -->
+    <div class="screen active" id="screen0">
+      <div class="typewriter">Happy Birthday Nanaluuuu ❤️</div>
+      <p>Nuvvu Special Kabatti… ‘Copy-Paste’ chesi ayna manchi special website create chesa chusi merchuko kukka❤️😆</p>
+      <div id="digital-rose" onclick="shootConfetti()">🌹</div>
+      <div class="nav-btns">
+        <button onclick="nextScreen()">Begin Your Surprise</button>
+      </div>
+    </div>
+
+    <!-- Screen 1: Love Meter -->
+    <div class="screen" id="screen1">
+      <h2>Our Love Meter</h2>
+      <p>100 rakapothe samputha gadidhii😒🌝</p>
+      <div id="love-meter">
+        <div id="love-progress"></div>
+      </div>
+      <button onclick="fillLoveMeter()">Measure Our Love</button>
+      <div class="nav-btns">
+        <button onclick="prevScreen()">Back</button>
+        <button onclick="nextScreen()">Next</button>
+      </div>
+    </div>
+
+    <!-- Screen 2: Love Notes -->
+    <div class="screen" id="screen2">
+      <h2>Click to Reveal Love Notes</h2>
+      <div class="polaroid">
+       <img src="images/couple.jpeg" alt="Us" width="300" height="300">
+        <p>Our happiest moment</p>
+      </div>
+      <button onclick="showNote('Note 1 lo em ledhu le neku suprise edham ani note 2 lo pettina chudu akkada gadidhi🫠🌝')">Note 1</button>
+      <button onclick="showNote('ayayooo ekkada kuda em ledu ga 3rd dantlo chudu fassttttt ga elli 😘😘💫')">Note 2</button>
+      <button onclick="showNote('Sarangheeee nanaluuuu,ummahhhhhhhhh heheheh❤️')">Note 3</button>
+      <div class="nav-btns">
+        <button onclick="prevScreen()">Back</button>
+        <button onclick="nextScreen()">Next</button>
+      </div>
+    </div>
+
+    <!-- Screen 3: Voice Message -->
+    <div class="screen" id="screen3">
+      <h2>My Voice For You 🎤</h2>
+      <p>Play this special message I recorded for you</p>
+      <audio controls style="width: 80%; margin: 20px 0;">
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" type="audio/mpeg">
+      </audio>
+      <div class="nav-btns">
+        <button onclick="prevScreen()">Back</button>
+        <button onclick="nextScreen()">Next</button>
+      </div>
+    </div>
+
+    <!-- Screen 4: Flipbook Photo Album -->
+    <div class="screen" id="screen4">
+      <h2>Our Photo Album💌</h2>
+      <p>GURTHUPETTUKOVALSINA mandatory memories🥰</p>
+      <div class="flipbook">
+        <img src="images/photo1.jpeg" width="300" height="600" alt="Memory 1">
+        <img src="images/photo2.jpeg" width="300" height="600" alt="Memory 2">
+        <img src="images/photo3.jpeg" width="300" height="600" alt="Memory 3">
+        <img src="images/photo4.jpeg" width="300" height="600" alt="Memory 4">
+        <img src="images/photo5.jpeg" width="300" height="600" alt="Memory 1">
+        <img src="images/photo6.jpeg" width="300" height="600" alt="Memory 2">
+        <img src="images/photo7.jpeg" width="300" height="600" alt="Memory 3">
+        <img src="images/photo8.jpeg" width="300" height="600" alt="Memory 4">
+
+      </div>
+      <div class="nav-btns">
+        <button onclick="prevScreen()">Back</button>
+        <button onclick="nextScreen()">Next</button>
+      </div>
+    </div>
+
+    
+
+    <!-- Screen 6: Surprise Video -->
+    <div class="screen" id="screen6">
+      <h2>Chuduuuu kukka❤️🎥</h2>
+      <video controls style="width: 80vw; max-width: 800px; height: auto; border-radius: 15px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);">
+        <source src="images/Me to my pasandida mard.mp4" type="video/mp4">
+      </video>
+
+      <div class="nav-btns">
+        <button onclick="prevScreen()">Back</button>
+        <button onclick="nextScreen()">Next</button>
+      </div>
+    </div>
+
+    <!-- Screen 7: Quiz -->
+    <div class="screen" id="screen7">
+      <h2>How Well Do You Know Me?</h2>
+      <div id="quiz-container">
+        <p id="quiz-question">Godva start chese frst person evaru?</p>
+        <button onclick="checkAnswer('pavan', this)">pavan</button>
+        <button onclick="checkAnswer('pavan', this)">pavan</button>
+        <button onclick="checkAnswer('pavan', this)">pavan</button>
+        <p id="quiz-result" style="margin-top: 15px;"></p>
+      </div>
+      <div class="nav-btns">
+        <button onclick="prevScreen()">Back</button>
+        <button onclick="nextScreen()">Next</button>
+      </div>
+    </div>
+    
+    
+
+    <!-- Screen 11: Secret Unlock -->
+    <div class="screen" id="screen11">
+      <h2>Secret Gift 🎁</h2>
+      <p>Enter our special code to unlock your surprise</p>
+      <input type="password" id="secret" placeholder="Enter secret code" style="padding: 10px; border-radius: 20px; border: none; margin: 10px;">
+      <button onclick="checkSecret()">Unlock</button>
+      <p id="unlock-result" style="margin-top: 10px;"></p>
+      <div id="secret-gift">
+        <h3>Your surprise is...</h3>
+        <p>I loveeeeeeeeee youuu so much nanaluuuuu,ummahhhh❤️❤️❤️💕💕💞💞💞</p>
+        <button onclick="shootConfetti()">Celebrate!</button>
+      </div>
+      <div class="nav-btns">
+        <button onclick="prevScreen()">Back</button>
+      </div>
+    </div>
+
+    <!-- Screen 12: Final Letter -->
+    <div class="screen" id="screen12">
+      <h2 class="typewriter">My Love Letter to You...</h2>
+      <div style="max-width: 600px; margin: 20px auto; text-align: left; line-height: 1.6;">
+        <p>My Dearest,</p>
+        <p>As you celebrate another year of your beautiful life, I want you to know how incredibly special you are to me.</p>
+        <p>Every moment with you feels like a gift - your laughter is my favorite melody, your smile my most cherished sight.</p>
+        <p>I promise to keep choosing you every single day, to be your partner in every adventure, and your comfort in every storm.</p>
+        <p>Happy birthday to the one who makes my world brighter just by being in it.</p>
+        <p>Forever yours,</p>
+        <p style="text-align: right; font-style: italic;">❤️</p>
+      </div>
+      <div class="polaroid">
+        <img src="https://source.unsplash.com/random/300x300/?letter,love" alt="Love Letter">
+        <p>Our love story</p>
+      </div>
+      <div class="nav-btns">
+        <button onclick="prevScreen()">Back</button>
+        <button onclick="shootConfetti()">I Love You!</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.4.0/dist/confetti.browser.min.js"></script>
+  <script>
+    // Screen navigation
+    let current = 0;
+    const screens = document.querySelectorAll('.screen');
+    
+    function nextScreen() {
+      if (current < screens.length - 1) {
+        screens[current].classList.remove('active');
+        current++;
+        screens[current].classList.add('active');
+        // Special actions for certain screens
+        if (current === 1) fillLoveMeter();
+        if (current === 8) startSlideshow();
+        if (current === 10) startCountdown();
+      }
+    }
+    
+    function prevScreen() {
+      if (current > 0) {
+        screens[current].classList.remove('active');
+        current--;
+        screens[current].classList.add('active');
+      }
+    }
+
+    // Music toggle
+    const music = document.getElementById('bg-music');
+    document.getElementById('music-toggle').addEventListener('click', () => {
+      if (music.paused) {
+        music.play();
+        document.getElementById('music-toggle').textContent = '🔊';
+      } else {
+        music.pause();
+        document.getElementById('music-toggle').textContent = '🔇';
+      }
+    });
+
+    // Heart trail animation
+    const canvas = document.getElementById("heart-trail");
+    const ctx = canvas.getContext("2d");
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    
+    const hearts = [];
+    const heartColors = ['#ff5e99', '#ff9966', '#ff66b2', '#ff99cc'];
+    
+    document.addEventListener("mousemove", e => {
+      for (let i = 0; i < 3; i++) {
+        hearts.push({
+          x: e.clientX,
+          y: e.clientY,
+          size: Math.random() * 15 + 5,
+          speedY: Math.random() * 2 + 0.5,
+          color: heartColors[Math.floor(Math.random() * heartColors.length)],
+          rotation: Math.random() * Math.PI * 2
+        });
+      }
+    });
+    
+    function drawHeart(x, y, size, color, rotation) {
+      ctx.save();
+      ctx.translate(x, y);
+      ctx.rotate(rotation);
+      ctx.fillStyle = color;
+      ctx.beginPath();
+      ctx.moveTo(0, 0 - size/2);
+      ctx.bezierCurveTo(
+        0 + size/3, 0 - size/2,
+        0 + size/2, 0,
+        0, 0 + size/2
+      );
+      ctx.bezierCurveTo(
+        0 - size/2, 0,
+        0 - size/3, 0 - size/2,
+        0, 0 - size/2
+      );
+      ctx.fill();
+      ctx.restore();
+    }
+    
+    function animateHearts() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      hearts.forEach((heart, index) => {
+        drawHeart(heart.x, heart.y, heart.size, heart.color, heart.rotation);
+        heart.y -= heart.speedY;
+        heart.x += (Math.random() - 0.5) * 2;
+        heart.size -= 0.3;
+        heart.rotation += 0.05;
+        if (heart.size <= 0) hearts.splice(index, 1);
+      });
+      requestAnimationFrame(animateHearts);
+    }
+    animateHearts();
+
+    // Love meter
+    function fillLoveMeter() {
+      const progress = document.getElementById('love-progress');
+      let width = 0;
+      const interval = setInterval(() => {
+        if (width >= 100) {
+          clearInterval(interval);
+          shootConfetti();
+        } else {
+          width++;
+          progress.style.width = width + '%';
+          progress.textContent = width + '%';
+        }
+      }, 30);
+    }
+
+    // Show notes with animation
+    function showNote(message) {
+      const note = document.createElement('div');
+      note.textContent = message;
+      note.style.position = 'fixed';
+      note.style.top = '50%';
+      note.style.left = '50%';
+      note.style.transform = 'translate(-50%, -50%)';
+      note.style.backgroundColor = 'rgba(255, 94, 153, 0.9)';
+      note.style.padding = '20px';
+      note.style.borderRadius = '15px';
+      note.style.boxShadow = '0 0 20px rgba(255, 94, 153, 0.7)';
+      note.style.zIndex = '1001';
+      note.style.animation = 'fadeIn 0.5s ease';
+      note.style.maxWidth = '80%';
+      note.style.textAlign = 'center';
+      
+      document.body.appendChild(note);
+      
+      setTimeout(() => {
+        note.style.animation = 'fadeOut 0.5s ease';
+        setTimeout(() => {
+          document.body.removeChild(note);
+        }, 500);
+      }, 3000);
+    }
+
+    // Memory map interaction
+    const memoryPoints = document.querySelectorAll('.memory-point');
+    const tooltip = document.querySelector('.memory-tooltip');
+    
+    memoryPoints.forEach(point => {
+      point.addEventListener('mouseover', () => {
+        tooltip.textContent = point.dataset.memory;
+        tooltip.style.left = point.style.left;
+        tooltip.style.top = `calc(${point.style.top} + 30px)`;
+        tooltip.style.opacity = '1';
+      });
+      
+      point.addEventListener('mouseout', () => {
+        tooltip.style.opacity = '0';
+      });
+    });
+
+    // Quiz functionality
+    function checkAnswer(correctAnswer, button) {
+      const result = document.getElementById('quiz-result');
+      if (button.textContent.toLowerCase() === correctAnswer) {
+        result.textContent = "Correct! You know me so well! 💖";
+        result.style.color = "#ff5e99";
+        button.style.backgroundColor = "#4CAF50";
+        shootConfetti();
+      } else {
+        result.textContent = "Almost! Try again 😊";
+        result.style.color = "#aaa";
+        button.style.backgroundColor = "#f44336";
+      }
+    }
+
+    // Slideshow
+    let slideIndex = 0;
+    const slides = document.querySelectorAll('.slide');
+    const captions = [
+      "Our first vacation together",
+      "That perfect sunset we shared",
+      "Laughing until our stomachs hurt"
+    ];
+    
+    function startSlideshow() {
+      showSlide(slideIndex);
+    }
+    
+    function showSlide(n) {
+      slides.forEach(slide => slide.classList.remove('active'));
+      slideIndex = (n + slides.length) % slides.length;
+      slides[slideIndex].classList.add('active');
+      document.getElementById('caption').textContent = captions[slideIndex];
+    }
+    
+    function nextSlide() {
+      showSlide(slideIndex + 1);
+    }
+
+    // Chat bot
+    const botMessages = [
+      "You mean the world to me 🌎",
+      "Remember our first date? I was so nervous!",
+      "I fall in love with you more every day",
+      "You have the most beautiful smile",
+      "I can't wait to make more memories with you"
+    ];
+    
+    function sendMessage() {
+      const input = document.getElementById('chat-input');
+      const chatContainer = document.getElementById('chat-container');
+      
+      if (input.value.trim() !== '') {
+        // Add user message
+        const userMsg = document.createElement('div');
+        userMsg.textContent = input.value;
+        userMsg.className = 'chat-message user-message';
+        chatContainer.appendChild(userMsg);
+        
+        // Clear input
+        input.value = '';
+        
+        // Scroll to bottom
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+        
+        // Bot reply after delay
+        setTimeout(() => {
+          const botMsg = document.createElement('div');
+          botMsg.textContent = botMessages[Math.floor(Math.random() * botMessages.length)];
+          botMsg.className = 'chat-message bot-message';
+          chatContainer.appendChild(botMsg);
+          chatContainer.scrollTop = chatContainer.scrollHeight;
+        }, 1000);
+      }
+    }
+    
+    // Allow pressing Enter to send message
+    document.getElementById('chat-input').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        sendMessage();
+      }
+    });
+
+    // Countdown timer
+    function startCountdown() {
+      // Set the date we're counting down to (next anniversary or birthday)
+      const countdownDate = new Date();
+      countdownDate.setMonth(countdownDate.getMonth() + 1); // Example: 1 month from now
+      
+      const countdownElement = document.getElementById('countdown');
+      
+      const interval = setInterval(() => {
+        const now = new Date().getTime();
+        const distance = countdownDate - now;
+        
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        
+        countdownElement.innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+        
+        if (distance < 0) {
+          clearInterval(interval);
+          countdownElement.innerHTML = "It's time to celebrate!";
+          shootConfetti();
+        }
+      }, 1000);
+    }
+
+    // Secret code
+    function checkSecret() {
+      const val = document.getElementById("secret").value.toLowerCase();
+      const result = document.getElementById("unlock-result");
+      
+      if (val === "forever" || val === "love" || val === "together") {
+        result.textContent = "Unlocked! Your surprise awaits 💝";
+        result.style.color = "#ff5e99";
+        document.getElementById("secret-gift").style.display = "block";
+        shootConfetti();
+      } else {
+        result.textContent = "Not quite... try something more romantic";
+        result.style.color = "#aaa";
+      }
+    }
+
+    // Confetti effect
+    function shootConfetti() {
+      confetti({
+        particleCount: 150,
+        spread: 70,
+        origin: { y: 0.6 },
+        colors: ['#ff5e99', '#ff9966', '#ffccdd', '#ffffff']
+      });
+    }
+
+    // Initialize some features
+    window.addEventListener('load', () => {
+      // Start with music paused
+      music.pause();
+      document.getElementById('music-toggle').textContent = '🔇';
+      
+      // Add some initial bot messages
+      setTimeout(() => {
+        const chatContainer = document.getElementById('chat-container');
+        const msg1 = document.createElement('div');
+        msg1.textContent = "Type a message and I'll tell you how much I love you!";
+        msg1.className = 'chat-message bot-message';
+        chatContainer.appendChild(msg1);
+      }, 1000);
+    });
+
+    // Make responsive
+    window.addEventListener('resize', () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    });
+  </script>
+</body>
+</html>
